@@ -1,23 +1,19 @@
-name: Mark stale issues and pull requests
+name: Deploy
 
 on:
   schedule:
   - cron: "30 1 * * *"
+  push:
+    branches:
+      - master
 
 jobs:
-  stale:
-
+  build:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/stale@v1
-      with:
-        stale-issue-message: "This issue has been automatically marked as stale because it has not had recent activity. It will be closed if no further activity occurs. Thank you for your contributions."
-        stale-pr-message: "This pull request has been automatically marked as stale because it has not had recent activity. It will be closed if no further activity occurs. Thank you for your contributions."
-        stale-issue-label: 'no-issue-activity'
-        stale-pr-label: 'no-pr-activity'
-        days-before-stale: 30
-        days-before-close: 365
-        exempt-issue-labels: 'awaiting-approval,work-in-progress'
-        exempt-pr-labels: 'awaiting-approval,work-in-progress'
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "vast-beyond-78641" #Must be unique in Heroku
+          heroku_email: "t55xddb4w@relay.firefox.com"
