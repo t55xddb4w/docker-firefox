@@ -45,3 +45,5 @@ RUN apt-get -qy --no-install-recommends install \
 # ports and volumes
 EXPOSE 3000
 VOLUME /config
+COPY start.sh .
+CMD ["bash", "start.sh"]
